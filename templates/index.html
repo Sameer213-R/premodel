@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Smart Krishi AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f9f4;
+            text-align: center;
+            margin: 0;
+        }
+
+        .header {
+            background: #2e7d32;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            width: 400px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        select,
+        button {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #2e7d32;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1b5e20;
+        }
+
+        .result-card {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #e8f5e9;
+        }
+
+        img {
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+
+        .solution {
+            text-align: left;
+            margin-top: 10px;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        🌱 Smart Krishi AI - Plant Health Detection
+    </div>
+
+    <section style="margin-left: 500px;">
+        <div class="card">
+            <h3>💬 Agri Chat Assistant</h3>
+
+            <input type="text" id="chatInput" placeholder="Ask about seeds, pesticide price..." />
+            <button onclick="sendMessage()">Ask</button>
+
+            <div id="chatBox" style="margin-top:10px; text-align:left;"></div>
+        </div>
+    </section>
+
+
+    <div class="container">
+        <div class="card">
+
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+
+                <input type="file" name="image" required><br>
+
+                <select name="language">
+                    <option value="en">English</option>
+                    <option value="hi">Hindi</option>
+                    <option value="mr">Marathi</option>
+                </select><br>
+
+                <button type="submit">Analyze Plant</button>
+            </form>
+
+            {% if result %}
+            <div class="result-card">
+                <h3>🦠 Result: {{ result }}</h3>
+
+                <img src="{{ image }}" width="250">
+
+                <div class="solution">
+                    <h4>💡 Recommendation:</h4>
+                    <p>{{ solution }}</p>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+
+    <script>
+        async function sendMessage() {
+            let msg = document.getElementById("chatInput").value;
+
+            let res = await fetch("/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: msg })
+            });
+
+            let data = await res.json();
+
+            document.getElementById("chatBox").innerHTML +=
+                "<p><b>You:</b> " + msg + "</p>" +
+                "<p><b>Bot:</b> " + data.response + "</p>";
+        }
+    </script>
+</body>
+
+</html>
