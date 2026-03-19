@@ -105,26 +105,26 @@ def upload():
         selected_lang=language
     )
 
-# chat route 
-@app.route('/chat', methods=['POST'])
-def chat():
-    data = request.json
-    user_msg = data.get("message")
+# # chat route 
+# @app.route('/chat', methods=['POST'])
+# def chat():
+#     data = request.json
+#     user_msg = data.get("message")
 
-    prompt = f"""
-    User is a farmer asking: {user_msg}
+#     prompt = f"""
+#     User is a farmer asking: {user_msg}
 
-    Give:
-    - Current price estimate in India
-    - Suggest what to buy
-    - Simple advice
+#     Give:
+#     - Current price estimate in India
+#     - Suggest what to buy
+#     - Simple advice
 
-    Keep answer short.
-    """
+#     Keep answer short.
+#     """
 
-    response = model_gemini.generate_content(prompt)
+#     response = model_gemini.generate_content(prompt)
 
-    return {"response": response.text}
+#     return {"response": response.text}
 
 if __name__ == "__main__":
     app.run(debug=True)
