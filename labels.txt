@@ -1,0 +1,4 @@
+0 Fungel infection disease
+1 Bacteria infection disease
+2 Heathly Plant
+3 Not_a_Plant
